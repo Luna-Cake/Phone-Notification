@@ -59,18 +59,15 @@ def drive():
         else:
             for event in events:
                 print("EVENT SEEN")
-                now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 start_time = event['start'].get('dateTime', event['start'].get('date'))
                 
                 new_start = datetime.strptime(start_time[:-6], '%Y-%m-%dT%H:%M:%S')
-                now = datetime.strptime(now, '%Y-%m-%d %H:%M:%S')
                 message = event['summary']
                 
-                print(type(new_start), " ", type(now))
-                print("SLEEPING FOR ", (new_start - now).seconds - 600, " SECONDS")
+                print("SLEEPING FOR ", (new_start - datetime.now()).seconds - 600, " SECONDS")
 
-                time.sleep((new_start - now).seconds - 600)
-                push(event['summray'] + " in 10 minutes!")
+                time.sleep((new_start - datetime.now()).seconds - 300)
+                push(event['summary'] + " in 10 minutes!")
 
 print("STARTING NOW!")
 drive()
