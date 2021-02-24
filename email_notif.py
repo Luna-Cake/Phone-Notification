@@ -3,7 +3,7 @@ from datetime import datetime
 import time
 import pickle
 import os.path
-import push
+from push import push
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -60,10 +60,17 @@ def drive():
             for event in events:
                 print("EVENT SEEN")
                 now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                start_time = event['start'].get('dateTime', event['start'].get('date'))[:-6]
+                start_time = event['start'].get('dateTime', event['start'].get('date'))
+                
+                new_start = datetime.strptime(start_time[:-6], '%Y-%m-%dT%H:%M:%S')
+                now = datetime.strptime(now, '%Y-%m-%d %H:%M:%S')
                 message = event['summary']
-                time.sleep((start_time - now).seconds - 600)
-                push.push(event['summray'] + " in 10 minutes!")
+                
+                print(type(new_start), " ", type(now))
+                print("SLEEPING FOR ", (new_start - now).seconds - 600, " SECONDS")
+
+                time.sleep((new_start - now).seconds - 600)
+                push(event['summray'] + " in 10 minutes!")
 
 print("STARTING NOW!")
 drive()
