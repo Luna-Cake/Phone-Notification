@@ -63,7 +63,7 @@ def getEvents():
 
 print("HERE")
 authorize()
-push.push("HEROKU NOTIFICATION SYSTEM STARTING NOW")
+push("HEROKU NOTIFICATION SYSTEM STARTING NOW")
 
 while True:
     events = getEvents()
@@ -79,8 +79,8 @@ while True:
             print(event['summary'])
             print((new_start - datetime.now()).seconds - 600,  "seconds")
             time.sleep((new_start - datetime.now()).seconds - 600)
-            push.push(event['summary'] + " in 10 minutes!")
+            push(event['summary'] + " in 10 minutes!")
 
             time.sleep(300)
-            push.push(event['summary'] + " in 5 minutes!")
+            push(event['summary'] + " in 5 minutes!")
 
